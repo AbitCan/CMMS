@@ -1,0 +1,32 @@
+{
+  "name": "cmms-backend",
+  "version": "1.0.0",
+  "description": "Computerized Maintenance Management System Backend",
+  "private": true,
+  "type": "commonjs",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "type-check": "tsc --noEmit",
+    "test": "echo \"Tests will be added later\""
+  },
+  "keywords": [
+    "cmms",
+    "maintenance",
+    "express",
+    "typescript"
+  ],
+  "author": "Can",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.0.1",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  }
+}
