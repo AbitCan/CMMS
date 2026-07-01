@@ -1,4 +1,6 @@
 import express from "express";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler";
+import { notFoundHandler } from "./middlewares/notFoundHandler";
 
 const app = express();
 
@@ -10,5 +12,8 @@ app.get("/health", (_req, res) => {
     service: "cmms-backend",
   });
 });
+
+app.use(notFoundHandler);
+app.use(globalErrorHandler);
 
 export default app;
