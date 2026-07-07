@@ -10,7 +10,9 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "type-check": "tsc --noEmit",
-    "test": "echo \"Tests will be added later\""
+    "test": "echo \"Tests will be added later\"",
+    "prisma:validate": "prisma validate",
+    "prisma:generate": "prisma generate"
   },
   "keywords": [
     "cmms",
@@ -21,11 +23,13 @@
   "author": "Can",
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "^7.8.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "helmet": "^8.2.0",
     "morgan": "^1.11.0",
+    "prisma": "^7.8.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
