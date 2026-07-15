@@ -12,7 +12,8 @@
     "type-check": "tsc --noEmit",
     "test": "echo \"Tests will be added later\"",
     "prisma:validate": "prisma validate",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "prisma:seed": "tsx prisma/seed.ts"
   },
   "keywords": [
     "cmms",
@@ -23,12 +24,14 @@
   "author": "Can",
   "license": "MIT",
   "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "helmet": "^8.2.0",
     "morgan": "^1.11.0",
+    "pg": "^8.22.0",
     "prisma": "^7.8.0",
     "zod": "^4.4.3"
   },
