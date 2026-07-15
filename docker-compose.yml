@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: cmms-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cmms_user
+      POSTGRES_PASSWORD: cmms_password
+      POSTGRES_DB: cmms_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - cmms_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  cmms_postgres_data:
