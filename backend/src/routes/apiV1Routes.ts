@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { assetPartRoutes } from "../modules/asset-parts/assetPart.routes";
 import { assetRoutes } from "../modules/assets/asset.routes";
 import { sparePartRoutes } from "../modules/spare-parts/sparePart.routes";
 
@@ -11,5 +12,6 @@ apiV1Routes.get("/", (_req, res) => {
   });
 });
 
+apiV1Routes.use("/asset-parts", assetPartRoutes);
 apiV1Routes.use("/assets", assetRoutes);
 apiV1Routes.use("/spare-parts", sparePartRoutes);
