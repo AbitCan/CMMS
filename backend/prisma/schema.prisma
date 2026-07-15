@@ -11,3 +11,98 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum AssetStatus {
+  ACTIVE
+  INACTIVE
+  UNDER_MAINTENANCE
+  RETIRED
+}
+
+enum MaintenanceLogStatus {
+  DRAFT
+  COMPLETED
+  CANCELLED
+}
+
+model Asset {
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  model               String
+  location            String
+  totalOperatingHours Decimal               @default(0) @db.Decimal(12, 2)
+  status              AssetStatus           @default(ACTIVE)
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  assetParts          AssetPart[]
+  maintenanceTemplates MaintenanceTemplate[]
+  maintenanceLogs      MaintenanceLog[]
+
+  @@index([status])
+}
+
+model SparePart {
+  id                Int         @id @default(autoincrement())
+  partName          String
+  stockQuantity     Int
+  warehouseLocation String
+  minStockLimit     Int
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  assetParts        AssetPart[]
+
+  @@index([warehouseLocation])
+}
+
+model AssetPart {
+  id                Int        @id @default(autoincrement())
+  assetId           Int
+  partId            Int
+  usageQuantity     Int
+  componentLocation String
+  currentPartHours  Decimal    @default(0) @db.Decimal(12, 2)
+  installedAt       DateTime   @default(now())
+  replacedAt        DateTime?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  asset             Asset      @relation(fields: [assetId], references: [id])
+  part              SparePart  @relation(fields: [partId], references: [id])
+
+  @@index([assetId])
+  @@index([partId])
+}
+
+model MaintenanceTemplate {
+  id              Int              @id @default(autoincrement())
+  assetId         Int
+  periodDays      Int?
+  targetHours     Decimal?         @db.Decimal(12, 2)
+  steps           Json
+  isActive        Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  asset           Asset            @relation(fields: [assetId], references: [id])
+  maintenanceLogs MaintenanceLog[]
+
+  @@index([assetId])
+}
+
+model MaintenanceLog {
+  id                 String               @id
+  templateId         Int
+  assetId            Int
+  performedAt        DateTime
+  technicianName     String
+  recordedAssetHours Decimal              @db.Decimal(12, 2)
+  stepAnswers        Json
+  status             MaintenanceLogStatus @default(DRAFT)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  template           MaintenanceTemplate  @relation(fields: [templateId], references: [id])
+  asset              Asset                @relation(fields: [assetId], references: [id])
+
+  @@index([assetId])
+  @@index([templateId])
+  @@index([performedAt])
+  @@index([status])
+}
